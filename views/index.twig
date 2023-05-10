@@ -1,0 +1,31 @@
+{% extends "layout.twig" %}
+
+{% block body %}
+	<h1>Home page</h1>
+
+  <p>
+    Artillery testing tool experiment.
+    {% if version == "A" %}
+      <a data-testid="cta" href="/a">Version A</a>
+    {% endif %}
+    {% if version == "B" %}
+      <a data-testid="cta" href="/b">Version B</a>
+    {% endif %}
+  </p>
+
+  <script>
+    var id = Math.random().toString(36).substr(2, 9);
+    var visitor_id = localStorage.getItem("visitor_id");
+
+    if (!visitor_id) {
+      visitor_id = id;
+      localStorage.setItem("visitor_id", visitor_id);
+    }
+
+    var links = document.querySelectorAll('a');
+
+    links.forEach(link => {
+      link.setAttribute('href', link.href + "?visitor_id=" + visitor_id);
+    });
+  </script>
+{% endblock %}

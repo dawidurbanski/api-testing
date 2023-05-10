@@ -2,22 +2,18 @@ var express = require('express');
 var router = express.Router();
 var db = require("../db");
 
-/* GET home page. */
 router.get('/', async function(req, res, next) {
-  var version = Math.random() > 0.5 ? "A" : "B";
-
   await db(async function(client) {
-    var collection = await client.db("test").collection("visits");
+    var collection = await client.db("test").collection("clicks");
 
     await collection.insertOne({
-      visitTime: new Date(),
-      version
+      userId: req.query.visitor_id,
+      clickDate: new Date(),
+      clickVersion: "B"
     });
   });
 
-  res.render('index', {
-    version
-  });
+  res.send('Version B of the API');
 });
 
 module.exports = router;
